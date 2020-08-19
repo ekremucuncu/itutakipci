@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{%block content%}
+{% load crispy_forms_tags %}
+
+<div style="text-align:center;"class="container">
+	<span class="baslik">İTÜ TAKİPÇİ</span>
+</div>
+
+<div class="container">
+		<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Ara">
+		</div>
+		<span class="counter pull-right"></span>
+		<table class="table table-hover results">
+  	<thead>
+    	<tr>
+      	<th >Hoca</th>
+				<th>Fakülte</th>
+      	<th >Ders</th>
+    	</tr>
+    	<tr class="warning no-result">
+      	<td><i class="fa fa-warning"></i> Sonuç Yok</td>
+    	</tr>
+  	</thead>
+  	<tbody>
+			{%for lec in lecturer_list%}
+    	<tr>
+      	<td>
+					<p ><a style="text-decoration:none" href="{% url 'distribution:lecturer_distribution' slug=lec.slug%}">{{lec.lecturer}}</a></p>
+      	</td>
+				<td>
+						<p>{{lec.faculty}}</p>
+				</td>
+      	<td>
+					{%for ders in lec.lecture.all%}
+						<a style="text-decoration:none" href="{% url 'distribution:lecture_distribution' slug=ders.slug%}">{{ders.lecture}}</a>,
+					{% endfor%}
+				</td>
+    	</tr>
+			{%endfor%}
+  	</tbody>
+</table>
+
+</div>
+
+
+
+
+
+<style >
+		body{
+  padding:20px 20px;
+}
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px;
+  color:#ccc;
+}
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:900i&display=swap');
+
+
+.baslik{
+
+	font-family sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size:70px;
+	letter-spacing:0.1em;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: #002855;
+}
+	</style>
+
+<script>
+	$(document).ready(function() {
+  $(".search").keyup(function () {
+    var searchTerm = $(".search").val();
+    var listItem = $('.results tbody').children('tr');
+    var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+  $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+    }
+  });
+
+  $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+    $(this).attr('visible','false');
+  });
+
+  $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+    $(this).attr('visible','true');
+  });
+
+  var jobCount = $('.results tbody tr[visible="true"]').length;
+
+  if(jobCount == '0') {$('.no-result').show();}
+    else {$('.no-result').hide();}
+		  });
+});
+</script>
+
+
+
+{% endblock content%}

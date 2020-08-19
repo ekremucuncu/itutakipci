@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{%block content%}
+
+
+
+
+<div class="container">
+
+	<h1 style="text-align:center;">Tüm Hocalara ait {{lecture.lecture}} Dağılımları</h1>
+	<hr>
+	{% for i in distribution_%}
+	<div class='img1'>
+		<img src="{{ i.distribution.url }}">
+		<p style="text-align:center;">{{i.lecturer}} | {{i.semester}}</p>
+
+	</div>
+  {% endfor %}
+
+</div>
+
+<style >
+	img {
+	    width:  300px;
+	    height: 300px;
+	    object-fit: cover;
+	}
+	.img1{
+		float: left;
+		margin:20px;
+
+</style>
+
+
+
+
+
+
+{% endblock content%}

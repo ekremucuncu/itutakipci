@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{%block content%}
+{% load crispy_forms_tags %}
+
+
+
+<div class="container">
+	<h1 style="text-align:center;">{{lecturer.lecturer}}</h1>
+	<hr>
+	{% for i in distribution%}
+	<div class='img1'>
+		<img name="pic" src="{{ i.distribution.url }}">
+		<p style="text-align:center;">{{i.lecture}} | {{i.semester}}</p>
+	</div>
+  {% endfor %}
+</div>
+
+<div class="container">
+	<table class="table">
+	</table>
+</div>
+
+
+<div class="container">
+		{% if user.is_authenticated%}
+	 <button style="float:right;"type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Yorum Ekle</button>
+	 <h1 style="text-align:center;">Hoca hakkında Yorumlar</h1>
+	 {% else %}
+	 <h1 style="text-align:center;">Hoca hakkında Yorumlar</h1>
+	 <p style="text-align:right;">Yorum yapmak için <a style="text-decoration:none;" href="{% url 'account:login' %}">Giriş</a> yap!</p>
+	 {% endif%}
+	{% for j in commentmodel_list%}
+	<hr>
+	<h4>{{j.comment}}</h4>
+		{% if j.author is None%}
+		<p>Anon</p>
+		{% else %}
+		<p>{{j.author}}</p>
+		{% endif %}
+	{% endfor %}
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+	 <div class="modal-content">
+		 <div class="modal-header">
+			 <h5 class="modal-title" id="exampleModalLabel">Yorum</h5>
+		 </div>
+		 <div class="modal-body">
+			 <form method="post" style="margin-top: 1.3em;">
+				 {% csrf_token %}
+				 ​<textarea name="comment" rows="10" cols="50"></textarea>
+				 <br>
+				 <input type="checkbox" name="anon" text="Anonim" >
+				 <label for="anon">Anonim Yorumlamak için Tıkla!</label>
+				 <div class="modal-footer">
+					 <button type="submit" class="btn btn-primary">Yorumla</button>
+					 <button type="submit" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+				 </div>
+			 </form>
+		 </div>
+	 </div>
+ </div>
+</div>
+<style >
+	img {
+	    width:  300px;
+	    height: 300px;
+	    object-fit: cover;
+	}
+	.img1{
+		float: left;
+		margin:20px;
+
+	}
+	.comments{
+		text-align:center
+	}
+</style>
+{% endblock content%}

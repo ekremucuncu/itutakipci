@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+
+<html lang="en" dir="ltr">
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  		<a class="navbar-brand" href="{% url 'distribution:home'%}">Ana Sayfa</a>
+  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="navbar-toggler-icon"></span>
+  		</button>
+  		<div class="collapse navbar-collapse" id="navbarText">
+    		<ul class="navbar-nav mr-auto">
+					{% if user.is_authenticated%}
+					{% else %}
+      		<li class="nav-item active">
+        		<a class="nav-link" href="{% url 'account:register' %}">Kayıt Ol <span class="sr-only">(current)</span></a>
+      		</li>
+					{% endif %}
+    	</ul>
+	    <span class="navbar-text">
+				{% if user.is_authenticated%}
+				<a href="{% url 'account:logout' %}" style="text-decoration:none;" >Oturum Kapat</a>
+				{% else %}
+				<a href="{% url 'account:login' %}" style="text-decoration:none;" >Oturum Aç</a>
+				{% endif %}
+	    </span>
+  	</div>
+	</nav>
+
+
+
+		{%block content%}
+		{%endblock content%}
+		<br>
+	<footer>
+		<p style="font-size:13px;">Lütfen paylaşmak istediğiniz Not Dağılımlarını <a style="text-decoration:none;"href="mailto:itutakipcidestek@gmail.com">itutakipcidestek@gmail.com</a> adresine hoca ismi, dönem bilgisi ve ders adıyla gönderin.</p>
+		<p>Tüm haklar İTÜ Takipci Team'e aittir.</p>
+	</footer>
+	</body>
+</html>
+
+<style >
+footer {
+    background-color: #f8f8f8;
+    right: 0;
+    bottom: 0px;
+    left: 0;
+    padding: 1rem;
+    color: #9d9d9d;
+    text-align: center;
+}
+	.container{
+		padding-top: 70px;
+	}
+</style>
